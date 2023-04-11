@@ -29,9 +29,25 @@ CREATE TABLE Customers (
     City varchar(255)
 );
 INSERT INTO Customers VALUES (1, "LN", "FN", "AD", "CT");
+CREATE TABLE Employees (
+    EmployeesID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+INSERT INTO Employees VALUES (2, "LN", "FN", "AD", "CT");
 ```
 
-### kubernetes configmaps/secrets
+### Kubernetes configmaps
+
+```sh
+# default configmap
+kubectl create configmap myintegration --from-file=./myintegration.properties
+```
+
+
+### kubernetes secrets
 
 ```sh
 # default secret
@@ -44,13 +60,13 @@ kubectl create secret generic mariadb-source \
 kubectl label secret mariadb-source camel.apache.org/kamelet=mariadb-source
 
 # custom secret containing all the parameters with a different the query
-kubectl create secret generic mariadb-source.integrationcustom \
+kubectl create secret generic mariadb-source.secretintegrationcustom \
     --from-literal=password=root \
     --from-literal=username=root \
     --from-literal=serverName=my-mariadb \
     --from-literal=databaseName=my_database \
-    --from-literal='query=SELECT * FROM Customers'
-kubectl label secret mariadb-source.integrationcustom camel.apache.org/kamelet=mariadb-source camel.apache.org/kamelet.configuration=integrationcustom
+    --from-literal='query=SELECT * FROM Employees'
+kubectl label secret mariadb-source.secretintegrationcustom camel.apache.org/kamelet=mariadb-source camel.apache.org/kamelet.configuration=secretintegrationcustom
 
 
 # custom secret containing only a different the query

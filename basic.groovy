@@ -16,5 +16,7 @@
  * limitations under the License.
  */
 
+// camel-k: config=configmap:myintegration
+
 from('kamelet:mariadb-source')
   .to("kamelet:log-sink")
